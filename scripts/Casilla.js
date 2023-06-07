@@ -4,10 +4,10 @@ class Casilla {
     this.y = y;
     this.color = color;
     this.elemento = document.createElement("div");
-    this.agregarClases();
+    this.crearCasilla();
   }
 
-  agregarClases() {
+  crearCasilla() {
     this.elemento.classList.add("casilla");
   }
 }

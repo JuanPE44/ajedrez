@@ -1,11 +1,12 @@
 class Tablero {
   static FILAS = 8;
   static COLUMNAS = 8;
-  static LARGO_CASILLA = 50;
+  static LARGO_CASILLA = 30;
 
   constructor(elemento) {
     this.elemento = elemento;
     this.tablero = [];
+    this.piezaActual;
     this.crearTablero();
   }
 
@@ -23,5 +24,7 @@ class Tablero {
     this.elemento.style.gridTemplateColumns = `repeat(${Tablero.FILAS}, ${Tablero.LARGO_CASILLA}px)`;
     this.elemento.style.gridTemplateRows = `repeat(${Tablero.FILAS}, ${Tablero.LARGO_CASILLA}px)`;
     console.log(this.tablero);
+    const p = new Pieza(1, 1, Tablero.LARGO_CASILLA, 0);
+    this.piezaActual = p;
   }
 }
