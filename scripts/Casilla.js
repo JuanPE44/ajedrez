@@ -9,11 +9,11 @@ class Casilla {
   }
 
   crearCasilla() {
-    this.elemento.classList.add("casilla");
-    this.elemento.style.backgroundColor = this.color;
+    this.elemento.classList.add("casilla", `casilla-${this.color}`);
 
     this.elemento.addEventListener("click", () => {
-      this.tablero.piezaActual.mover(this.x, this.y);
+      this.tablero.piezaActual &&
+        this.tablero.piezaActual.mover(this.x, this.y);
     });
 
     this.elemento.addEventListener("dragover", (e) => {
@@ -23,5 +23,9 @@ class Casilla {
     this.elemento.addEventListener("drop", (e) => {
       this.tablero.piezaActual.mover(this.x, this.y);
     });
+  }
+
+  select() {
+    this.elemento.classList.add("selected");
   }
 }

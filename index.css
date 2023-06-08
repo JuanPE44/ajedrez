@@ -1,3 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .tablero {
   position: relative;
   display: grid;
@@ -32,4 +38,16 @@
 .pieza .drag-image {
   cursor: auto;
   opacity: 1;
+}
+
+.casilla-green {
+  background: #769656;
+}
+
+.casilla-white {
+  background: #eeeed2;
+}
+
+.selected {
+  background: #bbcb2b;
 }

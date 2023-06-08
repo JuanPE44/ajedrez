@@ -27,7 +27,7 @@ class Tablero {
       for (let j = 0; j < Tablero.COLUMNAS; j++) {
         const colorCasilla = this.obtenerColorCasilla(i, j);
         const c = new Casilla(j, i, colorCasilla, this);
-        this.tablero[i][j] = { casilla: c.elemento, pieza: 0 };
+        this.tablero[i][j] = { casilla: c, pieza: null };
         fragmento.appendChild(c.elemento);
       }
     }
@@ -51,19 +51,19 @@ class Tablero {
   }
   obtenerColorCasilla(i, j) {
     if (i % 2 === 0) {
-      if (j % 2 === 0) return "#769656";
-      return "#eeeed2";
+      if (j % 2 === 0) return "green";
+      return "white";
     } else {
-      if (j % 2 === 0) return "#eeeed2";
-      return "#769656";
+      if (j % 2 === 0) return "white";
+      return "green";
     }
   }
 
   obtenerPieza(i, j) {
     const piezasNegras = ["r", "n", "b", "q", "k", "b", "n", "r"];
     const piezasBlancas = ["R", "N", "B", "Q", "K", "B", "N", "R"];
-    if (i === 0) return "p";
-    if (i === 1) return piezasNegras[j];
+    if (i === 0) return piezasNegras[j];
+    if (i === 1) return "p";
     if (i === 6) return "P";
     if (i === 7) return piezasBlancas[j];
   }

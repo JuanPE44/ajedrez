@@ -5,6 +5,8 @@ class Pieza {
     this.id = id;
     this.largo = largo;
     this.tablero = tablero;
+    this.casillaAct = tablero.tablero[y][x].casilla;
+    this.select = false;
     this.elemento = document.createElement("div");
     this.contenedor = document.querySelector(".contenedor-piezas");
     this.crearPieza();
@@ -22,17 +24,19 @@ class Pieza {
 
     this.elemento.addEventListener("click", () => {
       this.tablero.piezaActual = this;
+      this.casillaAct.select();
     });
 
     this.elemento.addEventListener("dragstart", (e) => {
       console.log("drag start");
       this.elemento.style.transition = "0s";
-
+      /*
       let dragImage = document.createElement("img");
       dragImage.src = this.obtenenerUrlPieza(this.id);
       dragImage.classList.add("drag-image");
       console.log(dragImage);
       e.dataTransfer.setDragImage(dragImage, 0, 0);
+    */
     });
 
     this.elemento.addEventListener("dragend", () => {
