@@ -5,7 +5,7 @@ class Tablero {
 
   constructor(elemento) {
     this.elemento = elemento;
-    this.tablero = [];
+    this._array = [];
     this._piezaActual;
     this.crearTablero();
   }
@@ -14,27 +14,35 @@ class Tablero {
     return this._piezaActual;
   }
 
+  get array() {
+    return this._array;
+  }
+
   set piezaActual(value) {
-    console.log("entro al setter");
+    console.log("setter pieza actual");
     this._piezaActual = value;
     console.log(this._piezaActual);
+  }
+
+  set array(value) {
+    console.log("setter array");
+    this._array = value;
   }
 
   crearTablero() {
     const fragmento = document.createDocumentFragment();
     for (let i = 0; i < Tablero.FILAS; i++) {
-      this.tablero[i] = [];
+      this._array[i] = [];
       for (let j = 0; j < Tablero.COLUMNAS; j++) {
         const colorCasilla = this.obtenerColorCasilla(i, j);
         const c = new Casilla(j, i, colorCasilla, this);
-        this.tablero[i][j] = { casilla: c, pieza: null };
+        this._array[i][j] = { casilla: c, pieza: null };
         fragmento.appendChild(c.elemento);
       }
     }
     this.elemento.appendChild(fragmento);
     this.elemento.style.gridTemplateColumns = `repeat(${Tablero.FILAS}, ${Tablero.LARGO_CASILLA}px)`;
     this.elemento.style.gridTemplateRows = `repeat(${Tablero.FILAS}, ${Tablero.LARGO_CASILLA}px)`;
-    console.log(this.tablero);
     this.agregarPiezas();
   }
 
@@ -44,7 +52,7 @@ class Tablero {
         if (i === 0 || i === 1 || i === 6 || i === 7) {
           const pieza = this.obtenerPieza(i, j);
           const p = new Pieza(j, i, Tablero.LARGO_CASILLA, pieza, this);
-          this.tablero[i][j].pieza = p;
+          this._array[i][j].pieza = p;
         }
       }
     }

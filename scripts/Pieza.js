@@ -5,7 +5,7 @@ class Pieza {
     this.id = id;
     this.largo = largo;
     this.tablero = tablero;
-    this.casillaAct = tablero.tablero[y][x].casilla;
+    this.casillaAct = tablero.array[x][y].casilla;
     this.select = false;
     this.elemento = document.createElement("div");
     this.contenedor = document.querySelector(".contenedor-piezas");
@@ -23,6 +23,7 @@ class Pieza {
     this.elemento.style.backgroundImage = `url(${urlPieza})`;
 
     this.elemento.addEventListener("click", () => {
+      this.tablero.piezaActual?.casillaAct.desSelect();
       this.tablero.piezaActual = this;
       this.casillaAct.select();
     });

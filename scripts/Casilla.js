@@ -28,4 +28,17 @@ class Casilla {
   select() {
     this.elemento.classList.add("selected");
   }
+
+  desSelect() {
+    this.elemento.classList.remove("selected");
+  }
+
+  casillasPosibles(pieza, x, y) {
+    if (pieza === "p") {
+      return [
+        [x, y + 1],
+        [x, y + 2],
+      ];
+    }
+  }
 }
