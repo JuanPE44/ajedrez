@@ -51,6 +51,16 @@ class Casilla {
         [x, y - 2],
       ];
     }
+    // torre
+    if (pieza === "r" || pieza === "R") {
+      const posibles = [];
+      const col1 = this.obtenerPosibles(x, y, "", "-");
+      const col2 = this.obtenerPosibles(x, y, "", "+");
+      const fil1 = this.obtenerPosibles(x, y, "+", "");
+      const fil2 = this.obtenerPosibles(x, y, "-", "");
+      posibles.push(...col1, ...col2, ...fil1, ...fil2);
+      return posibles;
+    }
     // caballo
     if (pieza === "n" || pieza === "N") {
       return [
@@ -63,6 +73,40 @@ class Casilla {
         [x - 1, y + 2],
         [x - 2, y + 1],
       ];
+    }
+    // alfil
+    if (pieza === "b" || pieza === "B") {
+      const posibles = [];
+      const diag1 = this.obtenerPosibles(x, y, "-", "-");
+      const diag2 = this.obtenerPosibles(x, y, "-", "+");
+      const diag3 = this.obtenerPosibles(x, y, "+", "+");
+      const diag4 = this.obtenerPosibles(x, y, "+", "+-");
+      posibles.push(...diag1, ...diag2, ...diag3, ...diag4);
+
+      return posibles;
+    }
+    // reina
+    if (pieza === "q" || pieza === "Q") {
+      const posibles = [];
+      const diag1 = this.obtenerPosibles(x, y, "-", "-");
+      const diag2 = this.obtenerPosibles(x, y, "-", "+");
+      const diag3 = this.obtenerPosibles(x, y, "+", "+");
+      const diag4 = this.obtenerPosibles(x, y, "+", "+-");
+      const col1 = this.obtenerPosibles(x, y, "", "-");
+      const col2 = this.obtenerPosibles(x, y, "", "+");
+      const fil1 = this.obtenerPosibles(x, y, "+", "");
+      const fil2 = this.obtenerPosibles(x, y, "-", "");
+      posibles.push(
+        ...diag1,
+        ...diag2,
+        ...diag3,
+        ...diag4,
+        ...col1,
+        ...col2,
+        ...fil1,
+        ...fil2
+      );
+      return posibles;
     }
     // rey
     if (pieza === "k" || pieza === "K") {
@@ -79,6 +123,26 @@ class Casilla {
     }
   }
 
+  obtenerPosibles(x, y, xOp, yOp) {
+    // xOp es el operador de x y lo mismo con el y
+    let cordenadas = [];
+    for (let i = 0; i < this.tablero.FILAS; i++) {
+      if (i === 0) continue;
+      if (
+        this.hasPieza(
+          xOp === "" ? x : xOp === "+" ? x + i : x - i,
+          yOp === "" ? y : yOp === "+" ? y + i : y - i
+        )
+      )
+        break;
+      cordenadas.push([
+        xOp === "" ? x : xOp === "+" ? x + i : x - i,
+        yOp === "" ? y : yOp === "+" ? y + i : y - i,
+      ]);
+    }
+    return cordenadas;
+  }
+
   verPosibles() {
     const piezaActual = this.tablero.piezaActual;
     const posibles = this.movePosibles(
@@ -90,10 +154,16 @@ class Casilla {
     posibles.forEach((pos) => {
       const [x, y] = pos;
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      if (this.tablero.array[y][x].pieza !== null) return;
+      const hasPieza = this.hasPieza(x, y);
+      if (hasPieza) return;
       this.tablero.array[y][x].casilla.elemento.classList.add("posibles");
       this.tablero.array[y][x].casilla.move = true;
     });
+  }
+
+  hasPieza(x, y) {
+    if (x > 7 || y > 7 || x < 0 || y < 0) return;
+    return this.tablero.array[y][x]?.pieza !== null;
   }
 
   sacarPosibles() {

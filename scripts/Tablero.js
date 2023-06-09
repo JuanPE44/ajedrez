@@ -10,6 +10,14 @@ class Tablero {
     this.crearTablero();
   }
 
+  get FILAS() {
+    return Tablero.FILAS;
+  }
+
+  get COLUMNAS() {
+    return Tablero.COLUMNAS;
+  }
+
   get piezaActual() {
     return this._piezaActual;
   }
