@@ -5,7 +5,7 @@ class Pieza {
     this.id = id;
     this.largo = largo;
     this.tablero = tablero;
-    this.casillaAct = tablero.array[x][y].casilla;
+    this.casillaAct = tablero.array[y][x].casilla;
     this.select = false;
     this.elemento = document.createElement("div");
     this.contenedor = document.querySelector(".contenedor-piezas");
@@ -22,37 +22,35 @@ class Pieza {
     const urlPieza = this.obtenenerUrlPieza(this.id);
     this.elemento.style.backgroundImage = `url(${urlPieza})`;
 
-    this.elemento.addEventListener("click", () => {
+    this.elemento.addEventListener("click", (e) => {
       this.tablero.piezaActual?.casillaAct.desSelect();
+      this.tablero.piezaActual?.casillaAct.sacarPosibles();
       this.tablero.piezaActual = this;
       this.casillaAct.select();
+      this.casillaAct.verPosibles();
     });
 
     this.elemento.addEventListener("dragstart", (e) => {
       console.log("drag start");
       this.elemento.style.transition = "0s";
-      /*
-      let dragImage = document.createElement("img");
-      dragImage.src = this.obtenenerUrlPieza(this.id);
-      dragImage.classList.add("drag-image");
-      console.log(dragImage);
-      e.dataTransfer.setDragImage(dragImage, 0, 0);
-    */
     });
 
     this.elemento.addEventListener("dragend", () => {
       console.log("drag end");
-
       this.elemento.style.transition = "";
     });
   }
 
   mover(x, y) {
+    this.casillaAct.desSelect();
+    this.tablero.array[this.y][this.x].pieza = null;
     this.x = x;
     this.y = y;
     this.elemento.style.transform = `translate(${this.x * this.largo}px, ${
       this.y * this.largo
     }px)`;
+    this.casillaAct = this.tablero.array[y][x].casilla;
+    this.tablero.array[y][x].pieza = this;
   }
 
   obtenenerUrlPieza(id) {

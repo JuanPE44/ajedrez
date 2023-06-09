@@ -33,6 +33,7 @@
   cursor: grab;
   transition: 0.5s;
   background-size: contain;
+  z-index: 100;
 }
 
 .pieza .drag-image {
@@ -50,4 +51,21 @@
 
 .selected {
   background: #bbcb2b;
+}
+
+.posibles {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.posibles::after {
+  content: "";
+  position: absolute;
+  width: 25%;
+  height: 25%;
+  background: #333a;
+  border-radius: 50%;
 }
