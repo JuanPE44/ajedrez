@@ -1,12 +1,13 @@
 class Tablero {
   static FILAS = 8;
   static COLUMNAS = 8;
-  static LARGO_CASILLA = 60;
+  static LARGO_CASILLA = 70;
 
   constructor(elemento) {
     this.elemento = elemento;
     this._array = [];
     this._piezaActual;
+    this._rondas = 0;
     this.crearTablero();
   }
 
@@ -24,6 +25,15 @@ class Tablero {
 
   get array() {
     return this._array;
+  }
+
+  get rondas() {
+    return this._rondas;
+  }
+
+  set rondas(value) {
+    this._rondas = value;
+    console.log(this.rondas);
   }
 
   set piezaActual(value) {
@@ -58,8 +68,8 @@ class Tablero {
     for (let i = 0; i < Tablero.FILAS; i++) {
       for (let j = 0; j < Tablero.COLUMNAS; j++) {
         if (i === 0 || i === 1 || i === 6 || i === 7) {
-          const pieza = this.obtenerPieza(i, j);
-          const p = new Pieza(j, i, Tablero.LARGO_CASILLA, pieza, this);
+          const { pieza, tipo } = this.obtenerPieza(i, j);
+          const p = new Pieza(j, i, Tablero.LARGO_CASILLA, pieza, this, tipo);
           this._array[i][j].pieza = p;
         }
       }
@@ -78,9 +88,9 @@ class Tablero {
   obtenerPieza(i, j) {
     const piezasNegras = ["r", "n", "b", "q", "k", "b", "n", "r"];
     const piezasBlancas = ["R", "N", "B", "Q", "K", "B", "N", "R"];
-    if (i === 0) return piezasNegras[j];
-    if (i === 1) return "p";
-    if (i === 6) return "P";
-    if (i === 7) return piezasBlancas[j];
+    if (i === 0) return { pieza: piezasNegras[j], tipo: "negra" };
+    if (i === 1) return { pieza: "p", tipo: "negra" };
+    if (i === 6) return { pieza: "P", tipo: "blanca" };
+    if (i === 7) return { pieza: piezasBlancas[j], tipo: "blanca" };
   }
 }

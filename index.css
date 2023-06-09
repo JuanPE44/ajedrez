@@ -1,3 +1,18 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #312e2b;
+}
+
+.titulo {
+  color: #eeeed2;
+  margin: 10px 0;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -7,6 +22,8 @@
 .tablero {
   position: relative;
   display: grid;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .casilla {
@@ -64,8 +81,11 @@
 .posibles::after {
   content: "";
   position: absolute;
-  width: 25%;
-  height: 25%;
-  background: #333a;
+  width: 30%;
+  height: 30%;
+  background: #0000000d;
+  background: #333;
+  height: 100%;
+  width: 100%;
   border-radius: 50%;
 }

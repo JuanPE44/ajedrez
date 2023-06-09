@@ -16,6 +16,7 @@ class Casilla {
       if (this.tablero.piezaActual && this.move === true) {
         this.sacarPosibles();
         this.tablero.piezaActual.mover(this.x, this.y);
+        this.tablero.rondas++;
       }
     });
 
@@ -39,6 +40,7 @@ class Casilla {
   movePosibles(pieza, x, y) {
     // peon negro
     if (pieza === "p") {
+      if (this.tablero.rondas >= 2) return [[x, y + 1]];
       return [
         [x, y + 1],
         [x, y + 2],
@@ -46,6 +48,7 @@ class Casilla {
     }
     //peon blanco
     if (pieza === "P") {
+      if (this.tablero.rondas >= 2) return [[x, y - 1]];
       return [
         [x, y - 1],
         [x, y - 2],
@@ -128,6 +131,11 @@ class Casilla {
     let cordenadas = [];
     for (let i = 0; i < this.tablero.FILAS; i++) {
       if (i === 0) continue;
+
+      cordenadas.push([
+        xOp === "" ? x : xOp === "+" ? x + i : x - i,
+        yOp === "" ? y : yOp === "+" ? y + i : y - i,
+      ]);
       if (
         this.hasPieza(
           xOp === "" ? x : xOp === "+" ? x + i : x - i,
@@ -135,10 +143,6 @@ class Casilla {
         )
       )
         break;
-      cordenadas.push([
-        xOp === "" ? x : xOp === "+" ? x + i : x - i,
-        yOp === "" ? y : yOp === "+" ? y + i : y - i,
-      ]);
     }
     return cordenadas;
   }
@@ -154,8 +158,6 @@ class Casilla {
     posibles.forEach((pos) => {
       const [x, y] = pos;
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      const hasPieza = this.hasPieza(x, y);
-      if (hasPieza) return;
       this.tablero.array[y][x].casilla.elemento.classList.add("posibles");
       this.tablero.array[y][x].casilla.move = true;
     });
