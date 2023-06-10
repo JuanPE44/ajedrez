@@ -16,7 +16,6 @@ class Piece {
   }
 
   get moves() {
-    console.log("get moves: " + this._moves);
     return this._moves;
   }
 
@@ -45,10 +44,7 @@ class Piece {
       this.board.currentPiece?.currentSquare.unpaintPossible();
       this.currentSquare.select();
       this.board.currentPiece = this;
-      console.log({
-        type: this.type,
-        boardCurrentTurn: this.board.currentTurn,
-      });
+
       if (this.type !== this.board.currentTurn) return;
       this.currentSquare.paintPossible();
     });
@@ -75,6 +71,7 @@ class Piece {
   }
 
   moveTo(x, y) {
+    this._moves++;
     this.currentSquare.deselect();
     this.board.array[this.y][this.x].piece = null;
     this.x = x;
@@ -85,7 +82,6 @@ class Piece {
     this.currentSquare = this.board.array[y][x].square;
     this.board.array[y][x].piece = this;
     this.board.changeTurn();
-    this._moves++;
   }
 
   getUrlPiece(id) {

@@ -44,29 +44,20 @@ class Square {
   getArrayPossible(piece, x, y) {
     // peon negro
     if (piece === "p") {
-      console.log(this.board.currentPiece.moves);
-      if (this.board.currentPiece.moves > 1)
-        return [
-          [x, y + 1],
-          [x + 1, y + 1],
-          [x - 1, y + 1],
-        ];
       return [
         [x, y + 1],
         [x, y + 2],
+        [x + 1, y + 1],
+        [x - 1, y + 1],
       ];
     }
     //peon blanco
     if (piece === "P") {
-      if (this.board.currentPiece.moves > 1)
-        return [
-          [x, y - 1],
-          [x + 1, y - 1],
-          [x - 1, y - 1],
-        ];
       return [
         [x, y - 1],
         [x, y - 2],
+        [x + 1, y - 1],
+        [x - 1, y - 1],
       ];
     }
     // torre
@@ -144,7 +135,7 @@ class Square {
   getPossible(x, y, xOp, yOp) {
     // xOp es el operador de x y lo mismo con el y
     let coordinates = [];
-    for (let i = 0; i < this.board.FILAS; i++) {
+    for (let i = 0; i < this.board.ROWS; i++) {
       if (i === 0) continue;
 
       coordinates.push([
@@ -152,7 +143,7 @@ class Square {
         yOp === "" ? y : yOp === "+" ? y + i : y - i,
       ]);
       if (
-        this.haspiece(
+        this.hasPiece(
           xOp === "" ? x : xOp === "+" ? x + i : x - i,
           yOp === "" ? y : yOp === "+" ? y + i : y - i
         )
@@ -172,27 +163,27 @@ class Square {
 
     possible.forEach((pos, index) => {
       const [x, y] = pos;
-      const isPeon = currentPiece.id === "p" || currentPiece.id === "P";
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
       const square = this.board.array[y][x].square;
-      const piece = this.board.array[y][x].piece;
-      if (isPeon && currentPiece.moves > 0) {
-        if (index === 0 && piece === null) {
-          square.element.classList.add("possible");
-          square.move = true;
-        }
-        if (piece !== null && index !== 0) {
-          square.element.classList.add("possible");
-          square.move = true;
-        }
-        return;
-      }
+      if (this.isPeon(currentPiece, x, y, index)) return;
       square.element.classList.add("possible");
       square.move = true;
     });
   }
 
-  haspiece(x, y) {
+  isPeon(currentPiece, x, y, index) {
+    const moves = this.board.currentPiece.moves;
+    const piece = this.board.array[y][x].piece;
+    const isPeon = currentPiece.id === "p" || currentPiece.id === "P";
+    if (!isPeon) return false;
+    if (moves < 1 && index === 1 && piece === null) return false;
+    if (piece !== null && index === 0) return true;
+    if (index === 0) return false;
+    if (piece !== null && index !== 1) return false;
+    return true;
+  }
+
+  hasPiece(x, y) {
     if (x > 7 || y > 7 || x < 0 || y < 0) return;
     const piece = this.board.array[y][x]?.piece;
     return piece !== null;
@@ -200,7 +191,6 @@ class Square {
 
   unpaintPossible() {
     const currentPiece = this.board.currentPiece;
-    console.log(currentPiece);
     const possible = this.getArrayPossible(
       currentPiece.id,
       currentPiece.x,

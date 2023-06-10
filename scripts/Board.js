@@ -1,7 +1,7 @@
 class Board {
   static ROWS = 8;
   static COLUMNS = 8;
-  static SIZE_SQUARE = 70;
+  static SIZE_SQUARE = 50;
 
   constructor(element) {
     this.element = element;
