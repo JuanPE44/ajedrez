@@ -41,7 +41,7 @@ class Casilla {
   movePosibles(pieza, x, y) {
     // peon negro
     if (pieza === "p") {
-      if (this.tablero.rondas >= 2)
+      if (this.tablero.piezaActual.movimientos > 1)
         return [
           [x, y + 1],
           [x + 1, y + 1],
@@ -54,7 +54,7 @@ class Casilla {
     }
     //peon blanco
     if (pieza === "P") {
-      if (this.tablero.rondas >= 2)
+      if (this.tablero.piezaActual.movimientos > 1)
         return [
           [x, y - 1],
           [x + 1, y - 1],

@@ -102,16 +102,15 @@ class Tablero {
   obtenerPieza(i, j) {
     const piezasNegras = ["r", "n", "b", "q", "k", "b", "n", "r"];
     const piezasBlancas = ["R", "N", "B", "Q", "K", "B", "N", "R"];
-    if (i === 0) return { pieza: piezasNegras[j], tipo: "negra" };
+    if (i === 0) return { pieza: piezasNegras[j], tipo: "negras" };
     if (i === 1) return { pieza: "p", tipo: "negras" };
     if (i === 6) return { pieza: "P", tipo: "blancas" };
-    if (i === 7) return { pieza: piezasBlancas[j], tipo: "blanca" };
+    if (i === 7) return { pieza: piezasBlancas[j], tipo: "blancas" };
   }
 
   cambiarTurno() {
     this._turnoActual === "blancas"
       ? (this._turnoActual = "negras")
       : (this._turnoActual = "blancas");
-    console.log(this._turnoActual);
   }
 }
