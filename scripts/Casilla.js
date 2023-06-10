@@ -16,6 +16,7 @@ class Casilla {
       if (this.tablero.piezaActual && this.move === true) {
         this.sacarPosibles();
         this.tablero.piezaActual.mover(this.x, this.y);
+        this.tablero.sonidoMove.play();
         this.tablero.rondas++;
       }
     });

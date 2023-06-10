@@ -8,7 +8,12 @@ class Tablero {
     this._array = [];
     this._piezaActual;
     this._rondas = 0;
+    this._sonidoMove = new Audio("../audio/move-pieza.mp3");
     this.crearTablero();
+  }
+
+  get sonidoMove() {
+    return this._sonidoMove;
   }
 
   get FILAS() {

@@ -54,6 +54,7 @@ class Pieza {
     this.tablero.piezaActual?.casillaAct.desSelect();
     this.tablero.piezaActual?.casillaAct.sacarPosibles();
     this.tablero.piezaActual?.mover(this.x, this.y);
+    this.tablero.sonidoMove.play();
     this.tablero.rondas++;
     setTimeout(() => {
       this.contenedor.removeChild(this.elemento);
