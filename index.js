@@ -1,3 +1,3 @@
-const divTablero = document.getElementById("tablero");
+const divBoard = document.getElementById("board");
 
-const t = new Tablero(divTablero);
+const t = new Board(divBoard);
