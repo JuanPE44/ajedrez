@@ -8,12 +8,17 @@ class Tablero {
     this._array = [];
     this._piezaActual;
     this._rondas = 0;
+    this._turnoActual = "blancas";
     this._sonidoMove = new Audio("../audio/move-pieza.mp3");
     this.crearTablero();
   }
 
   get sonidoMove() {
     return this._sonidoMove;
+  }
+
+  get turnoActual() {
+    return this._turnoActual;
   }
 
   get FILAS() {
@@ -50,6 +55,10 @@ class Tablero {
   set array(value) {
     console.log("setter array");
     this._array = value;
+  }
+
+  set turnoActual(value) {
+    this.turnoActual = value;
   }
 
   crearTablero() {
@@ -94,8 +103,15 @@ class Tablero {
     const piezasNegras = ["r", "n", "b", "q", "k", "b", "n", "r"];
     const piezasBlancas = ["R", "N", "B", "Q", "K", "B", "N", "R"];
     if (i === 0) return { pieza: piezasNegras[j], tipo: "negra" };
-    if (i === 1) return { pieza: "p", tipo: "negra" };
-    if (i === 6) return { pieza: "P", tipo: "blanca" };
+    if (i === 1) return { pieza: "p", tipo: "negras" };
+    if (i === 6) return { pieza: "P", tipo: "blancas" };
     if (i === 7) return { pieza: piezasBlancas[j], tipo: "blanca" };
+  }
+
+  cambiarTurno() {
+    this._turnoActual === "blancas"
+      ? (this._turnoActual = "negras")
+      : (this._turnoActual = "blancas");
+    console.log(this._turnoActual);
   }
 }

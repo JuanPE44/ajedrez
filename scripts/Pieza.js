@@ -28,12 +28,13 @@ class Pieza {
         this.casillaAct.move === true &&
         this.tipo !== this.tablero.piezaActual.tipo
       ) {
-        console.log("entro");
         this.comerPieza();
         return;
       }
       this.tablero.piezaActual?.casillaAct.desSelect();
       this.tablero.piezaActual?.casillaAct.sacarPosibles();
+      console.log({ tipo: this.tipo, turnoActual: this.tablero.turnoActual });
+      if (this.tipo !== this.tablero.turnoActual) return;
       this.tablero.piezaActual = this;
       this.casillaAct.select();
       this.casillaAct.verPosibles();
@@ -71,6 +72,7 @@ class Pieza {
     }px)`;
     this.casillaAct = this.tablero.array[y][x].casilla;
     this.tablero.array[y][x].pieza = this;
+    this.tablero.cambiarTurno();
   }
 
   obtenenerUrlPieza(id) {

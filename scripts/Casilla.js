@@ -41,7 +41,12 @@ class Casilla {
   movePosibles(pieza, x, y) {
     // peon negro
     if (pieza === "p") {
-      if (this.tablero.rondas >= 2) return [[x, y + 1]];
+      if (this.tablero.rondas >= 2)
+        return [
+          [x, y + 1],
+          [x + 1, y + 1],
+          [x - 1, y + 1],
+        ];
       return [
         [x, y + 1],
         [x, y + 2],
@@ -49,7 +54,12 @@ class Casilla {
     }
     //peon blanco
     if (pieza === "P") {
-      if (this.tablero.rondas >= 2) return [[x, y - 1]];
+      if (this.tablero.rondas >= 2)
+        return [
+          [x, y - 1],
+          [x + 1, y - 1],
+          [x - 1, y - 1],
+        ];
       return [
         [x, y - 1],
         [x, y - 2],
@@ -156,17 +166,34 @@ class Casilla {
       piezaActual.y
     );
 
-    posibles.forEach((pos) => {
+    posibles.forEach((pos, index) => {
       const [x, y] = pos;
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      this.tablero.array[y][x].casilla.elemento.classList.add("posibles");
-      this.tablero.array[y][x].casilla.move = true;
+      const casilla = this.tablero.array[y][x].casilla;
+      const pieza = this.tablero.array[y][x].pieza;
+      if (
+        (piezaActual.id === "p" || piezaActual.id === "P") &&
+        this.tablero.rondas >= 2
+      ) {
+        if (index === 0 && pieza === null) {
+          casilla.elemento.classList.add("posibles");
+          casilla.move = true;
+        }
+        if (pieza !== null && index !== 0) {
+          casilla.elemento.classList.add("posibles");
+          casilla.move = true;
+        }
+        return;
+      }
+      casilla.elemento.classList.add("posibles");
+      casilla.move = true;
     });
   }
 
   hasPieza(x, y) {
     if (x > 7 || y > 7 || x < 0 || y < 0) return;
-    return this.tablero.array[y][x]?.pieza !== null;
+    const pieza = this.tablero.array[y][x]?.pieza;
+    return pieza !== null;
   }
 
   sacarPosibles() {
@@ -180,8 +207,9 @@ class Casilla {
     posibles.forEach((pos) => {
       const [x, y] = pos;
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      this.tablero.array[y][x].casilla.elemento.classList.remove("posibles");
-      this.tablero.array[y][x].casilla.move = false;
+      const casilla = this.tablero.array[y][x].casilla;
+      casilla.elemento.classList.remove("posibles");
+      casilla.move = false;
     });
   }
 }

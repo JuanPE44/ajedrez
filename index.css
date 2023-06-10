@@ -84,8 +84,10 @@ body {
   width: 30%;
   height: 30%;
   background: #0000001d;
-  /*background: #333;
+  /*
+  background: #333;
   height: 100%;
-  width: 100%;*/
+  width: 100%;
+  */
   border-radius: 50%;
 }
