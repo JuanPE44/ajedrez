@@ -1,12 +1,13 @@
 class Piece {
-  constructor(x, y, size, id, board, type) {
+  constructor(x, y, size, id, board, type, game) {
+    this.board = board;
+    this.game = game;
     this.x = x;
     this.y = y;
     this.id = id;
     this.size = size;
-    this.board = board;
     this.type = type;
-    this._moves = -1;
+    this._moves = 0;
     this.currentSquare = board.array[y][x].square;
     this.select = false;
     this.element = document.createElement("div");
@@ -32,7 +33,8 @@ class Piece {
     const urlPiece = this.getUrlPiece(this.id);
     this.element.style.backgroundImage = `url(${urlPiece})`;
 
-    this.element.addEventListener("click", (e) => {
+    this.element.addEventListener("click", () => {
+      if (!this.game.start) return;
       if (
         this.currentSquare.move === true &&
         this.type !== this.board.currentPiece.type
@@ -45,7 +47,7 @@ class Piece {
       this.currentSquare.select();
       this.board.currentPiece = this;
 
-      if (this.type !== this.board.currentTurn) return;
+      if (this.type !== this.game.currentPlayer.data.pieceColor) return;
       this.currentSquare.paintPossible();
     });
 
@@ -61,6 +63,7 @@ class Piece {
   }
 
   eatPiece() {
+    this.game.currentPlayer.data.eated.push(this.id);
     this.board.currentPiece?.currentSquare.deselect();
     this.board.currentPiece?.currentSquare.unpaintPossible();
     this.board.currentPiece?.moveTo(this.x, this.y);
@@ -71,7 +74,6 @@ class Piece {
   }
 
   moveTo(x, y) {
-    this._moves++;
     this.currentSquare.deselect();
     this.board.array[this.y][this.x].piece = null;
     this.x = x;
@@ -81,7 +83,17 @@ class Piece {
     }px)`;
     this.currentSquare = this.board.array[y][x].square;
     this.board.array[y][x].piece = this;
-    this.board.changeTurn();
+    if (!this.game.start) return;
+    this._moves++;
+    console.log("entro");
+    this.game.changeTurn();
+  }
+
+  checkJaque() {
+    const [king] = this.board.piecesKings.filter(
+      (k) => k.type !== this.board.currentTurn
+    );
+    if (king?.currentSquare.move) alert("rey en jaque");
   }
 
   getUrlPiece(id) {

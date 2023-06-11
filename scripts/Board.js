@@ -3,18 +3,23 @@ class Board {
   static COLUMNS = 8;
   static SIZE_SQUARE = 50;
 
-  constructor(element) {
+  constructor(element, game) {
     this.element = element;
     this._array = [];
     this._currentPiece;
     this._rounds = 0;
-    this._currentTurn = "white";
+    this._piecesKings = [];
+    this.game = game;
     this._soundMove = new Audio("../audio/move-pieza.mp3");
     this.createBoard();
   }
 
   get soundMove() {
     return this._soundMove;
+  }
+
+  get piecesKings() {
+    return this._piecesKings;
   }
 
   get currentTurn() {
@@ -63,7 +68,7 @@ class Board {
       this._array[i] = [];
       for (let j = 0; j < Board.COLUMNS; j++) {
         const colorSquare = this.getColorSquare(i, j);
-        const s = new Square(j, i, colorSquare, this);
+        const s = new Square(j, i, colorSquare, this, this.game);
         this._array[i][j] = { square: s, piece: null };
         fragment.appendChild(s.element);
       }
@@ -79,12 +84,22 @@ class Board {
       for (let j = 0; j < Board.COLUMNS; j++) {
         if (i === 0 || i === 1 || i === 6 || i === 7) {
           const { piece, type } = this.getPiece(i, j);
-          const p = new Piece(j, i, Board.SIZE_SQUARE, piece, this, type);
+          const p = new Piece(
+            j,
+            i,
+            Board.SIZE_SQUARE,
+            piece,
+            this,
+            type,
+            this.game
+          );
+          if (piece === "k" || piece === "K") this._piecesKings.push(p);
           this._array[i][j].piece = p;
         }
       }
     }
   }
+
   getColorSquare(i, j) {
     if (i % 2 === 0) {
       if (j % 2 === 0) return "green";
@@ -102,11 +117,5 @@ class Board {
     if (i === 1) return { piece: "p", type: "black" };
     if (i === 6) return { piece: "P", type: "white" };
     if (i === 7) return { piece: whitePieces[j], type: "white" };
-  }
-
-  changeTurn() {
-    this._currentTurn === "white"
-      ? (this._currentTurn = "black")
-      : (this._currentTurn = "white");
   }
 }

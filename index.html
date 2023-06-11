@@ -9,14 +9,41 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="title">Ajedrez</h1>
+      <div class="container-p p1">
+        <div class="info-p">
+          <img
+            src="	https://www.chess.com/bundles/web/images/user-image.svg"
+            alt=""
+          />
+          <div>
+            <span class="p-name">Jugador 2</span>
+          </div>
+        </div>
+        <div class="timer-p1"></div>
+      </div>
       <div class="board" id="board">
         <div class="container-pieces"></div>
       </div>
+      <div class="container-p p2">
+        <div class="info-p">
+          <img
+            src="	https://www.chess.com/bundles/web/images/user-image.svg"
+            alt=""
+          />
+          <div>
+            <span class="p-name">Jugador 1</span>
+          </div>
+        </div>
+        <div class="timer-p2"></div>
+        </div>
+      </div>
     </div>
+    <script src="scripts/Timer.js"></script>
+    <script src="scripts/Player.js"></script>
     <script src="scripts/Piece.js"></script>
     <script src="scripts/Square.js"></script>
     <script src="scripts/Board.js"></script>
+    <script src="scripts/Game.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

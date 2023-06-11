@@ -1,18 +1,27 @@
 class Square {
-  constructor(x, y, color, board) {
+  constructor(x, y, color, board, game) {
+    this.game = game;
     this.x = x;
     this.y = y;
     this.color = color;
     this.board = board;
     this.move = false;
     this.element = document.createElement("div");
-    this.handleScare();
+    this.handleSquare();
   }
 
-  handleScare() {
+  handleSquare() {
     this.element.classList.add("square", `square-${this.color}`);
 
-    this.handleSquareClick();
+    this.element.addEventListener("click", () => {
+      if (!this.game.start) return;
+
+      if (this.board.currentPiece && this.move === true) {
+        this.unpaintPossible();
+        this.board.currentPiece.moveTo(this.x, this.y);
+        this.board.soundMove.play();
+      }
+    });
 
     this.element.addEventListener("dragover", (e) => {
       e.preventDefault();
@@ -20,16 +29,6 @@ class Square {
 
     this.element.addEventListener("drop", (e) => {
       this.board.currentPiece.moveTo(this.x, this.y);
-    });
-  }
-
-  handleSquareClick() {
-    this.element.addEventListener("click", () => {
-      if (this.board.currentPiece && this.move === true) {
-        this.unpaintPossible();
-        this.board.currentPiece.moveTo(this.x, this.y);
-        this.board.soundMove.play();
-      }
     });
   }
 
