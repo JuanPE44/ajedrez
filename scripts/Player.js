@@ -1,5 +1,6 @@
 class Player {
-  constructor(player) {
+  constructor(player, timer) {
+    this.timer = timer;
     this.info = {
       isTurn: false,
       isWinner: false,

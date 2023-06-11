@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="css/background-pieces.css">
     <title>Ajedrez</title>
   </head>
   <body>
@@ -17,9 +18,12 @@
           />
           <div>
             <span class="p-name">Jugador 2</span>
+            <div class="captured-pieces"></div>
           </div>
         </div>
-        <div class="timer-p1"></div>
+        <div class="container-timer-p1">
+          <div class="timer">05:00</div>
+        </div>
       </div>
       <div class="board" id="board">
         <div class="container-pieces"></div>
@@ -32,9 +36,12 @@
           />
           <div>
             <span class="p-name">Jugador 1</span>
+            <div class="captured-pieces"></div>
           </div>
         </div>
-        <div class="timer-p2"></div>
+        <div class="container-timer-p2">
+          <div class="timer"></div>
+        </div>
         </div>
       </div>
     </div>

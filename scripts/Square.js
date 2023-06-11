@@ -163,9 +163,11 @@ class Square {
     possible.forEach((pos, index) => {
       const [x, y] = pos;
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
+      const piece = this.board.array[y][x].piece;
       const square = this.board.array[y][x].square;
       if (this.isPeon(currentPiece, x, y, index)) return;
-      square.element.classList.add("possible");
+      const squareClass = piece === null ? "possible" : "possible-piece";
+      square.element.classList.add(`${squareClass}`);
       square.move = true;
     });
   }

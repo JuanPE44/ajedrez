@@ -25,13 +25,11 @@ class Piece {
   }
 
   createPieces() {
-    this.element.classList.add("piece");
+    this.element.classList.add("piece", `${this.id}-piece`);
     this.element.style.width = `${this.size}px`;
     this.element.style.height = `${this.size}px`;
     this.element.draggable = true;
     this.container.appendChild(this.element);
-    const urlPiece = this.getUrlPiece(this.id);
-    this.element.style.backgroundImage = `url(${urlPiece})`;
 
     this.element.addEventListener("click", () => {
       if (!this.game.start) return;
@@ -94,32 +92,5 @@ class Piece {
       (k) => k.type !== this.board.currentTurn
     );
     if (king?.currentSquare.move) alert("rey en jaque");
-  }
-
-  getUrlPiece(id) {
-    if (id === "p")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/bp.png";
-    if (id === "r")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/br.png";
-    if (id === "n")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/bn.png";
-    if (id === "b")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/bb.png";
-    if (id === "q")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/bq.png";
-    if (id === "k")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/bk.png";
-    if (id === "P")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/wp.png";
-    if (id === "R")
-      return "	https://www.chess.com/chess-themes/pieces/neo/150/wr.png";
-    if (id === "N")
-      return "	https://www.chess.com/chess-themes/pieces/neo/150/wn.png";
-    if (id === "B")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/wb.png";
-    if (id === "Q")
-      return "	https://www.chess.com/chess-themes/pieces/neo/150/wq.png";
-    if (id === "K")
-      return "https://www.chess.com/chess-themes/pieces/neo/150/wk.png";
   }
 }
