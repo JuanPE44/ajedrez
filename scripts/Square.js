@@ -166,9 +166,33 @@ class Square {
       const piece = this.board.array[y][x].piece;
       const square = this.board.array[y][x].square;
       if (this.isPeon(currentPiece, x, y, index)) return;
-      const squareClass = piece === null ? "possible" : "possible-piece";
+      const squareClass = this.getSquareClass(piece);
       square.element.classList.add(`${squareClass}`);
       square.move = true;
+    });
+  }
+
+  getSquareClass(piece) {
+    if (piece === null) return "possible";
+    const piecePlayer = this.game.currentPlayer.data.pieceColor;
+    if (piece.type !== piecePlayer) return "possible-piece";
+    return "possible";
+  }
+
+  unpaintPossible() {
+    const currentPiece = this.board.currentPiece;
+    const possible = this.getArrayPossible(
+      currentPiece.id,
+      currentPiece.x,
+      currentPiece.y
+    );
+
+    possible.forEach((pos) => {
+      const [x, y] = pos;
+      if (x > 7 || y > 7 || x < 0 || y < 0) return;
+      const square = this.board.array[y][x].square;
+      square.element.classList.remove("possible", "possible-piece");
+      square.move = false;
     });
   }
 
@@ -188,22 +212,5 @@ class Square {
     if (x > 7 || y > 7 || x < 0 || y < 0) return;
     const piece = this.board.array[y][x]?.piece;
     return piece !== null;
-  }
-
-  unpaintPossible() {
-    const currentPiece = this.board.currentPiece;
-    const possible = this.getArrayPossible(
-      currentPiece.id,
-      currentPiece.x,
-      currentPiece.y
-    );
-
-    possible.forEach((pos) => {
-      const [x, y] = pos;
-      if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      const square = this.board.array[y][x].square;
-      square.element.classList.remove("possible");
-      square.move = false;
-    });
   }
 }
