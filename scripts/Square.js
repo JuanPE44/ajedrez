@@ -17,7 +17,7 @@ class Square {
       if (!this.game.start) return;
 
       if (this.board.currentPiece && this.move === true) {
-        this.unpaintPossible();
+        this.board.clearSquares();
         this.board.currentPiece.moveTo(this.x, this.y);
         this.board.soundMove.play();
       }
@@ -152,7 +152,7 @@ class Square {
     return coordinates;
   }
 
-  paintPossible() {
+  selectPossible({ addClass }) {
     const currentPiece = this.board.currentPiece;
     const possible = this.getArrayPossible(
       currentPiece.id,
@@ -166,9 +166,10 @@ class Square {
       const piece = this.board.array[y][x].piece;
       const square = this.board.array[y][x].square;
       if (this.isPeon(currentPiece, x, y, index)) return;
+      square.move = true;
+      if (!addClass) return;
       const squareClass = this.getSquareClass(piece);
       square.element.classList.add(`${squareClass}`);
-      square.move = true;
     });
   }
 
@@ -177,23 +178,6 @@ class Square {
     const piecePlayer = this.game.currentPlayer.data.pieceColor;
     if (piece.type !== piecePlayer) return "possible-piece";
     return "possible";
-  }
-
-  unpaintPossible() {
-    const currentPiece = this.board.currentPiece;
-    const possible = this.getArrayPossible(
-      currentPiece.id,
-      currentPiece.x,
-      currentPiece.y
-    );
-
-    possible.forEach((pos) => {
-      const [x, y] = pos;
-      if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      const square = this.board.array[y][x].square;
-      square.element.classList.remove("possible", "possible-piece");
-      square.move = false;
-    });
   }
 
   isPeon(currentPiece, x, y, index) {

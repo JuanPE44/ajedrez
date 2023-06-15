@@ -122,6 +122,14 @@ body {
   background: #bbcb2b;
 }
 
+.prev-square {
+  background: #bbcb2b;
+}
+
+.next-square {
+  background: #f7f769;
+}
+
 .possible,
 .possible-piece {
   position: relative;

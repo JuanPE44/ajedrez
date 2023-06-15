@@ -9,13 +9,34 @@ class Board {
     this._currentPiece;
     this._rounds = 0;
     this._piecesKings = [];
+    this._pieces = { white: [], black: [] };
+    this._arrayMoves = [];
     this.game = game;
     this._soundMove = new Audio("../audio/move-pieza.mp3");
+    this._soundJaque = new Audio("../audio/jaque-pieza.mp3");
+    this._soundEat = new Audio("../audio/eat-pieza.mp3");
     this.createBoard();
+  }
+
+  get pieces() {
+    return this._pieces;
+  }
+
+  get arrayMoves() {
+    console.log(this._arrayMoves);
+    return this._arrayMoves;
   }
 
   get soundMove() {
     return this._soundMove;
+  }
+
+  get soundJaque() {
+    return this._soundJaque;
+  }
+
+  get soundEat() {
+    return this._soundEat;
   }
 
   get piecesKings() {
@@ -93,6 +114,9 @@ class Board {
             type,
             this.game
           );
+          type === "black"
+            ? this._pieces.black.push(p)
+            : this._pieces.white.push(p);
           if (piece === "k" || piece === "K") this._piecesKings.push(p);
           this._array[i][j].piece = p;
         }
@@ -117,5 +141,41 @@ class Board {
     if (i === 1) return { piece: "p", type: "black" };
     if (i === 6) return { piece: "P", type: "white" };
     if (i === 7) return { piece: whitePieces[j], type: "white" };
+  }
+
+  clearSquares() {
+    this.array.forEach((fila) => {
+      fila.forEach((el) => {
+        const { square } = el;
+        square.element.classList.remove("possible", "possible-piece");
+        square.move = false;
+      });
+    });
+  }
+
+  updateMoves(prevX, prevY, nextX, nextY) {
+    this.removeClassSquare();
+    this.arrayMoves.push({
+      prev: { x: prevX, y: prevY },
+      next: { x: nextX, y: nextY },
+    });
+    this.addClassSquare(prevX, prevY, "prev-square");
+    this.addClassSquare(nextX, nextY, "next-square");
+  }
+
+  removeClassSquare() {
+    this.arrayMoves.forEach((move) => {
+      const { prev, next } = move;
+      console.log({ prev, next });
+      const squarePrev = this.array[prev.y][prev.x].square;
+      const squareNext = this.array[next.y][next.x].square;
+      squarePrev.element.classList.remove("prev-square");
+      squareNext.element.classList.remove("next-square");
+    });
+  }
+
+  addClassSquare(x, y, className) {
+    const { square } = this.array[y][x];
+    square.element.classList.add(className);
   }
 }

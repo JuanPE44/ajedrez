@@ -33,6 +33,7 @@ class Piece {
 
     this.element.addEventListener("click", () => {
       if (!this.game.start) return;
+
       if (
         this.currentSquare.move === true &&
         this.type !== this.board.currentPiece.type
@@ -41,12 +42,12 @@ class Piece {
         return;
       }
       this.board.currentPiece?.currentSquare.deselect();
-      this.board.currentPiece?.currentSquare.unpaintPossible();
+      this.board.clearSquares();
       this.currentSquare.select();
       this.board.currentPiece = this;
 
       if (this.type !== this.game.currentPlayer.data.pieceColor) return;
-      this.currentSquare.paintPossible();
+      this.currentSquare.selectPossible({ addClass: true });
     });
 
     this.element.addEventListener("dragstart", (e) => {
@@ -63,7 +64,7 @@ class Piece {
   eatPiece() {
     this.game.currentPlayer.data.eated.push(this.id);
     this.board.currentPiece?.currentSquare.deselect();
-    this.board.currentPiece?.currentSquare.unpaintPossible();
+    this.board.clearSquares();
     this.board.currentPiece?.moveTo(this.x, this.y);
     this.board.soundMove.play();
     setTimeout(() => {
@@ -72,25 +73,42 @@ class Piece {
   }
 
   moveTo(x, y) {
+    const [prevX, prevY, nextX, nextY] = [this.x, this.y, x, y];
     this.currentSquare.deselect();
     this.board.array[this.y][this.x].piece = null;
-    this.x = x;
-    this.y = y;
+    [this.x, this.y] = [x, y];
+    this.updatePiecePosition(x, y);
+    if (!this.game.start) return;
+    const { black, white } = this.board.pieces;
+    this.checkPossible(black);
+    this.checkPossible(white);
+    this.board.updateMoves(prevX, prevY, nextX, nextY);
+    this.game.changeTurn();
+    this._moves++;
+  }
+
+  updatePiecePosition(x, y) {
     this.element.style.transform = `translate(${this.x * this.size}px, ${
       this.y * this.size
     }px)`;
     this.currentSquare = this.board.array[y][x].square;
     this.board.array[y][x].piece = this;
-    if (!this.game.start) return;
-    this._moves++;
-    console.log("entro");
-    this.game.changeTurn();
   }
 
   checkJaque() {
     const [king] = this.board.piecesKings.filter(
       (k) => k.type !== this.board.currentTurn
     );
-    if (king?.currentSquare.move) alert("rey en jaque");
+    if (king?.currentSquare.move) return true;
+    return false;
+  }
+
+  checkPossible(pieces) {
+    pieces.forEach((piece) => {
+      piece.currentSquare.selectPossible({ addClass: false });
+    });
+    const jaque = this.checkJaque();
+    console.log(jaque);
+    this.board.clearSquares();
   }
 }
