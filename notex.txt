@@ -1,4 +1,0 @@
-
-- arreglar bug del peon, al no haber hecho un movimiento puede saltar una pieza
-- hacer sistema de jaque y jaque mate
-- hacer jugadores y temporizador

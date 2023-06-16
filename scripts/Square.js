@@ -6,6 +6,7 @@ class Square {
     this.color = color;
     this.board = board;
     this.move = false;
+    this.inAttack = false;
     this.element = document.createElement("div");
     this.handleSquare();
   }
@@ -163,14 +164,37 @@ class Square {
     possible.forEach((pos, index) => {
       const [x, y] = pos;
       if (x > 7 || y > 7 || x < 0 || y < 0) return;
-      const piece = this.board.array[y][x].piece;
-      const square = this.board.array[y][x].square;
       if (this.isPeon(currentPiece, x, y, index)) return;
-      square.move = true;
-      if (!addClass) return;
-      const squareClass = this.getSquareClass(piece);
-      square.element.classList.add(`${squareClass}`);
+      if (this.isKing(currentPiece, x, y)) return;
+      this.addPossibleSquare(x, y, addClass);
     });
+  }
+
+  isKing(currentPiece, x, y) {
+    const square = this.board.array[y][x].square;
+
+    const isKing = currentPiece.id === "k" || currentPiece.id === "K";
+    console.log(square);
+
+    if (!isKing) return false;
+    if (square.inAttack) return true;
+    return false;
+  }
+
+  isSquareUnderAttack(piece, square) {
+    if (piece === null) return;
+    if (piece.type === this.game.currentPlayer.data.pieceColor) return;
+    square.inAttack = true;
+  }
+
+  addPossibleSquare(x, y, addClass) {
+    const piece = this.board.array[y][x].piece;
+    const square = this.board.array[y][x].square;
+    this.isSquareUnderAttack(piece, square);
+    square.move = true;
+    if (!addClass) return;
+    const squareClass = this.getSquareClass(piece);
+    square.element.classList.add(`${squareClass}`);
   }
 
   getSquareClass(piece) {

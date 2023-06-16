@@ -23,7 +23,6 @@ class Board {
   }
 
   get arrayMoves() {
-    console.log(this._arrayMoves);
     return this._arrayMoves;
   }
 
@@ -166,7 +165,6 @@ class Board {
   removeClassSquare() {
     this.arrayMoves.forEach((move) => {
       const { prev, next } = move;
-      console.log({ prev, next });
       const squarePrev = this.array[prev.y][prev.x].square;
       const squareNext = this.array[next.y][next.x].square;
       squarePrev.element.classList.remove("prev-square");

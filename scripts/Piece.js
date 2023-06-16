@@ -66,7 +66,7 @@ class Piece {
     this.board.currentPiece?.currentSquare.deselect();
     this.board.clearSquares();
     this.board.currentPiece?.moveTo(this.x, this.y);
-    this.board.soundMove.play();
+    this.board.soundEat.play();
     setTimeout(() => {
       this.container.removeChild(this.element);
     }, 500);
@@ -97,18 +97,16 @@ class Piece {
 
   checkJaque() {
     const [king] = this.board.piecesKings.filter(
-      (k) => k.type !== this.board.currentTurn
+      (k) => k.type !== this.game.currentPlayer.data.pieceColor
     );
-    if (king?.currentSquare.move) return true;
-    return false;
+    if (king?.currentSquare.move) console.log("jaque");
   }
 
   checkPossible(pieces) {
     pieces.forEach((piece) => {
       piece.currentSquare.selectPossible({ addClass: false });
     });
-    const jaque = this.checkJaque();
-    console.log(jaque);
+    this.checkJaque();
     this.board.clearSquares();
   }
 }
