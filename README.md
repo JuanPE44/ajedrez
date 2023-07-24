@@ -1,6 +1,6 @@
 # Ajedrez
 
-Este proyecto es una pagina para jugar ajedrez, recreando el popular sitio web de ajedrez, Chess.com, desarrollado con JavaScript
+Este proyecto es una pagina para jugar ajedrez, recreando el popular sitio web de ajedrez, Chess.com, desarrollado con TypeScript
 
 ## Demostración
 
