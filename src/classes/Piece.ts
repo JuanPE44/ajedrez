@@ -1,5 +1,28 @@
-class Piece {
-  constructor(x, y, size, id, board, type, game) {
+import { Game } from "./Game";
+import { Board } from "./Board";
+
+export class Piece {
+  board;
+  game;
+  x;
+  y;
+  id;
+  size;
+  type;
+  moves;
+  currentSquare;
+  select;
+  element;
+
+  constructor(
+    x: number,
+    y: number,
+    size: number,
+    id,
+    board: Board,
+    type,
+    game: Game
+  ) {
     this.board = board;
     this.game = game;
     this.x = x;
@@ -7,21 +30,12 @@ class Piece {
     this.id = id;
     this.size = size;
     this.type = type;
-    this._moves = 0;
+    this.moves = 0;
     this.currentSquare = board.array[y][x].square;
     this.select = false;
     this.element = document.createElement("div");
-    this.container = document.querySelector(".container-pieces");
     this.createPieces();
     this.moveTo(this.x, this.y);
-  }
-
-  get moves() {
-    return this._moves;
-  }
-
-  set moves(value) {
-    this._moves = value;
   }
 
   createPieces() {
@@ -29,36 +43,30 @@ class Piece {
     this.element.style.width = `${this.size}px`;
     this.element.style.height = `${this.size}px`;
     this.element.draggable = true;
-    this.container.appendChild(this.element);
+    this.game.containerPieces!.appendChild(this.element);
 
     this.element.addEventListener("click", () => {
-      if (!this.game.start) return;
-
-      if (
-        this.currentSquare.move === true &&
-        this.type !== this.board.currentPiece.type
-      ) {
-        this.eatPiece();
-        return;
-      }
-      this.board.currentPiece?.currentSquare.deselect();
-      this.board.clearSquares();
-      this.currentSquare.select();
-      this.board.currentPiece = this;
-
-      if (this.type !== this.game.currentPlayer.data.pieceColor) return;
-      this.currentSquare.selectPossible({ addClass: true });
+      this.handleClickPiece();
     });
+  }
 
-    this.element.addEventListener("dragstart", (e) => {
-      console.log("drag start");
-      this.element.style.transition = "0s";
-    });
+  handleClickPiece() {
+    if (!this.game.start) return;
 
-    this.element.addEventListener("dragend", () => {
-      console.log("drag end");
-      this.element.style.transition = "";
-    });
+    if (
+      this.currentSquare.move === true &&
+      this.type !== this.board.currentPiece.type
+    ) {
+      this.eatPiece();
+      return;
+    }
+    this.board.currentPiece?.currentSquare.deselect();
+    this.board.clearSquares();
+    this.currentSquare.select();
+    this.board.currentPiece = this;
+
+    if (this.type !== this.game.currentPlayer.data.pieceColor) return;
+    this.currentSquare.selectPossible({ addClass: true });
   }
 
   eatPiece() {
@@ -68,11 +76,11 @@ class Piece {
     this.board.currentPiece?.moveTo(this.x, this.y);
     this.board.soundEat.play();
     setTimeout(() => {
-      this.container.removeChild(this.element);
+      this.game.containerPieces!.removeChild(this.element);
     }, 500);
   }
 
-  moveTo(x, y) {
+  moveTo(x: number, y: number) {
     const [prevX, prevY, nextX, nextY] = [this.x, this.y, x, y];
     this.currentSquare.deselect();
     this.board.array[this.y][this.x].piece = null;
@@ -84,7 +92,7 @@ class Piece {
     this.checkPossible(white);
     this.board.updateMoves(prevX, prevY, nextX, nextY);
     this.game.changeTurn();
-    this._moves++;
+    this.moves++;
   }
 
   updatePiecePosition(x, y) {

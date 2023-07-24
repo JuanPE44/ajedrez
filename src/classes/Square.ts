@@ -1,5 +1,17 @@
-class Square {
-  constructor(x, y, color, board, game) {
+import { Game } from "./Game";
+import { Board } from "./Board";
+import { PieceLetter } from "../types";
+
+export class Square {
+  game;
+  x;
+  y;
+  color;
+  board;
+  move;
+  inAttack;
+  element;
+  constructor(x: number, y: number, color, board: Board, game: Game) {
     this.game = game;
     this.x = x;
     this.y = y;
@@ -23,14 +35,6 @@ class Square {
         this.board.soundMove.play();
       }
     });
-
-    this.element.addEventListener("dragover", (e) => {
-      e.preventDefault();
-    });
-
-    this.element.addEventListener("drop", (e) => {
-      this.board.currentPiece.moveTo(this.x, this.y);
-    });
   }
 
   select() {
@@ -41,7 +45,7 @@ class Square {
     this.element.classList.remove("selected");
   }
 
-  getArrayPossible(piece, x, y) {
+  getArrayPossible(piece: PieceLetter, x: number, y: number) {
     // peon negro
     if (piece === "p") {
       return [
@@ -174,7 +178,6 @@ class Square {
     const square = this.board.array[y][x].square;
 
     const isKing = currentPiece.id === "k" || currentPiece.id === "K";
-    console.log(square);
 
     if (!isKing) return false;
     if (square.inAttack) return true;

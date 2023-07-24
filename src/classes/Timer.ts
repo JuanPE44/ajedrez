@@ -1,8 +1,16 @@
-class Timer {
-  constructor(container, element) {
+export class Timer {
+  container;
+  element;
+  timerInterval;
+  startTime;
+  pausedTime;
+  isPaused;
+  minutes;
+  seconds;
+  constructor(container: Element, element: Element) {
     this.container = container;
     this.element = element;
-    this.timerInterval;
+    this.timerInterval = 0;
     this.startTime = 0;
     this.pausedTime = 0;
     this.isPaused = false;
@@ -56,7 +64,7 @@ class Timer {
     this.element.innerHTML = formattedTime;
   }
 
-  formatTime(time) {
+  formatTime(time: number) {
     return time < 10 ? "0" + time : time;
   }
 }

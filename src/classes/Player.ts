@@ -1,5 +1,12 @@
-class Player {
-  constructor(player, timer) {
+import { Timer } from "./Timer";
+import { PlayerData } from "../types";
+
+export class Player {
+  timer;
+  info;
+  data;
+
+  constructor(player: PlayerData, timer: Timer) {
     this.timer = timer;
     this.info = {
       isTurn: false,

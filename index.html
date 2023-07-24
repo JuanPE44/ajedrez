@@ -2,14 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="css/background-pieces.css">
     <title>Ajedrez</title>
   </head>
   <body>
-    <div class="container">
+    <div id="app" class="container">
       <div class="container-p p1">
         <div class="info-p">
           <img
@@ -26,7 +23,7 @@
         </div>
       </div>
       <div class="board" id="board">
-        <div class="container-pieces"></div>
+        <div class="container-pieces" id="container-pieces"></div>
       </div>
       <div class="container-p p2">
         <div class="info-p">
@@ -45,12 +42,6 @@
         </div>
       </div>
     </div>
-    <script src="scripts/Timer.js"></script>
-    <script src="scripts/Player.js"></script>
-    <script src="scripts/Piece.js"></script>
-    <script src="scripts/Square.js"></script>
-    <script src="scripts/Board.js"></script>
-    <script src="scripts/Game.js"></script>
-    <script src="index.js"></script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
