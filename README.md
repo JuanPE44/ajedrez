@@ -9,4 +9,5 @@ Este proyecto es una pagina para jugar ajedrez, recreando el popular sitio web d
 ## Instalación
 
 1. Descarga el repositorio con el comando git clone 
-2. Abri el archivo `index.html`
+2. Intala las dependecias `npm install`
+3. Inicia el servidor local `npm run dev`
