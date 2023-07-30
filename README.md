@@ -1,10 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-<<<<<<< HEAD
 ## Getting Started
-=======
+
 Este proyecto es una pagina para jugar ajedrez, recreando el popular sitio web de ajedrez, Chess.com, desarrollado con TypeScript
->>>>>>> cbbe437452f0062b486333a377a7fe84fbb9479d
+
 
 First, run the development server:
 
